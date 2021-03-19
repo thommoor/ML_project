@@ -15,7 +15,7 @@ paths:
     get:
       tags:
         - PREDICTION
-      operationId: ml_project.my_prediction
+      operationId: HF_defaultservice.my_prediction
       description: 'takes array of 8 components, returns heart failure prediction'
       parameters:
         - in: path
@@ -43,7 +43,7 @@ paths:
     get:
       tags:
         - SCORE
-      operationId: ml_project.my_score
+      operationId: HF_defaultservice.my_score
       description: 'returns the metrics for the trained model'
       produces:
         - "application/json"
@@ -58,7 +58,7 @@ paths:
     get:
       tags:
         - ROC
-      operationId: ml_project.my_roc
+      operationId: HF_defaultservice.my_roc
       description: 'shows receiver operating characteristic for model'
       produces:
         - "application/json"
