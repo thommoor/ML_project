@@ -5,7 +5,7 @@ from joblib import load
 
 #load the model
 
-my_model = load('svc_model.pkl')
+#my_model = load('svc_model.pkl')
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir="./")
@@ -16,7 +16,7 @@ app.add_api("master.yaml")
 # create a URL route in our application for "/"
 @app.route("/")
 def home():
-    msg = {"msg": "It's working!"}
+    msg = {"msg": "Welcome to the Thunder Dome!"}
     return jsonify(msg)
 
 

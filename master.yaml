@@ -1,4 +1,4 @@
-swagger: '3.0.0'
+openapi: '3.0.0'
 info:
   version: 0.0-oas3
   title: prediction/info - Hayden Moore
@@ -11,7 +11,7 @@ info:
   license:
     name: Apache
 paths:
-  /prediction/{id}:
+  /prediction:
     get:
       tags:
         - PREDICTION
@@ -39,14 +39,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PREDICTION'
+  /test:
+    get:
+      tags:
+        - TEST
+      operationId: functions.prediction_test
+      description: 'returns the metrics for the trained model'
+      #produces:
+        #- "application/json"
+      responses:
+        '200':
+          description: 'heart failure model metrics'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TEST'
   /score:
     get:
       tags:
         - SCORE
       operationId: functions.model_score
       description: 'returns the metrics for the trained model'
-      produces:
-        - "application/json"
+      #produces:
+        #- "application/json"
       responses:
         '200':
           description: 'heart failure model metrics'
@@ -54,14 +69,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SCORE'
+  /matrix:
+    get:
+      tags:
+        - SCORE
+      operationId: functions.matrix
+      description: 'returns the metrics for the trained model'
+      #produces:
+        #- "application/json"
+      responses:
+        '200':
+          description: 'heart failure model metrics'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MATRIX'
   /roc:
     get:
       tags:
         - ROC
       operationId: functions.roc
       description: 'shows receiver operating characteristic for model'
-      produces:
-        - "application/json"
+      #produces:
+        #- "application/json"
       responses:
         '200':
           description: 'roc graph'
@@ -69,8 +99,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ROC'
+
 servers:
-  - url: 'http://localhost:8080/engr-222'
+  - url: 'http://localhost:8080/'
 components:
   schemas:
     PREDICTION:
@@ -88,6 +119,20 @@ components:
         model:
           type: string
     ROC:
+      type: object
+      required:
+        - model
+      properties:
+        model:
+          type: string
+    TEST:
+      type: object
+      required:
+        - model
+      properties:
+        model:
+          type: string
+    MATRIX:
       type: object
       required:
         - model
