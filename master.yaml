@@ -11,12 +11,12 @@ info:
   license:
     name: Apache
 paths:
-  /prediction:
+  /prediction/{id}:
     get:
       tags:
         - PREDICTION
       operationId: functions.my_prediction
-      description: 'takes array of 8 components, returns heart failure prediction'
+      description: 'takes array of 12 components, returns heart failure prediction'
       parameters:
         - in: path
           name: id

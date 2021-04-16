@@ -14,19 +14,26 @@ my_model = load('svc_model.pkl')
 #y_test = my_model.y_test
 #pred = my_model.predict(x_test)
 
-def my_prediction(an_array):
-	#prediction = my_model.predict(an_array)
-	#name = class_names[prediction]
-	#return name
-	#pass
-	print("Input: user input here")
-	print("Prediction: prediction here")
-	return
+def my_prediction(id):
+	dum = np.array(id)
+	dumT = dum.reshape(1,-1)
+	dum_str = dum.tolist()
+	r = dum.shape
+	t = dumT.shape
+	r_str = json.dumps(r)
+	t_str = json.dumps(t)
+	array = np.zeros(shape = (12,12))
+	arr = dumT + array
+	prediction = my_model.predict(arr)
+	pred = prediction[0]
+	#return pred
+
+	pred_str = pred.tolist()
+	return pred_str
 
 def prediction_test():
-	msg1 = "Input: user input here"
-	msg2 = "Default Prediction: DEATH! Change your ways NOW!!!"
-	return msg2
+	msg = """<html><head><b>Input: user input here</b></head><body><p>Default Prediction: DEATH! Change your ways NOW!!!</p></body></html>"""
+	return msg
 
 def test(a, b):
 	a = float(a)

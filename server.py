@@ -16,8 +16,8 @@ app.add_api("master.yaml")
 # create a URL route in our application for "/"
 @app.route("/")
 def home():
-    msg = {"msg": "Welcome to the Thunder Dome!"}
-    return jsonify(msg)
+    msg = """<html><head><b>Heart Failure Prediction Model:</b></head><body><p>Welcome to the Thunder Dome!!!</p></body></html>"""
+    return msg
 
 
 if __name__ == "__main__":
