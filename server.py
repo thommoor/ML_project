@@ -16,7 +16,9 @@ app.add_api("master.yaml")
 # create a URL route in our application for "/"
 @app.route("/")
 def home():
-    msg = """<html><head><b>Heart Failure Prediction Model:</b></head><body><p>Welcome to the Thunder Dome!!!</p></body></html>"""
+    msg = """<html><head><b>Heart Failure Prediction Model:</b></head><body><p>Add "/prediction/" to the url in the search bar</p>
+		<p>then add 12 values for Age, Anaemia, Creatinin Phosphokinase, Diabetes, Ejection Fraction, High Blood Pressure, High Blood Pressure, Platelets, Serum Creatinine, Serum Sodium, Sex, Smoking status, and Days between Follow-Up Visits.</p>
+		<p> Separate each values with a coma (,).</p></body></html>"""
     return msg
 
 

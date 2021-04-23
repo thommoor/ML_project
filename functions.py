@@ -1,10 +1,12 @@
 from joblib import load
 import numpy as np
 import json
+from flask import jsonify
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 import sklearn.metrics as metrics
 import matplotlib.pyplot as plt
+import os
 
 #load the model
 
@@ -26,10 +28,57 @@ def my_prediction(id):
 	arr = dumT + array
 	prediction = my_model.predict(arr)
 	pred = prediction[0]
-	#return pred
+	if pred == 1:
+		msg = "DEATH EVENT PREDICTED"
+	else:
+		msg = "DEATH EVENT NOT PREDICTED"
+	msg1 = suggestions(id, msg)
 
-	pred_str = pred.tolist()
-	return pred_str
+	return msg1
+
+def suggestions(arr, str):
+	sug_str = [str]
+
+	if arr[1] == 1:
+		sug_str = np.append(sug_str, "Speak with your doctor about anaemia.")
+	if arr[2] > 100:
+		sug_str = np.append(sug_str, "Speak with your doctor about elevated CPK levels.")
+	if arr[3] == 1:
+		sug_str = np.append(sug_str, "Consider options to mitigate the effects of diabetes.")
+	if arr[4] < 50:
+		sug_str = np.append(sug_str, "Percentage of blood leaving the heart is low. Speak with doctor.")
+	if arr[5] ==1:
+		sug_str = np.append(sug_str, "Your heart is overworked.  Consider treatment for high blood pressure.")
+	if arr[6] > 450000:
+		sug_str = np.append(sug_str, "Platelet count high.  Speak with doctor.")
+	if arr[6] < 150000:
+		sug_str = np.append(sug_str, "Platelet count low.  Speak with doctor.")
+	if arr[7] > 1.0:
+		sug_str = np.append(sug_str, "Serum Creatinine at high levels.  Your doctor may have suggestions.")
+	if arr[8] < 135:
+		sug_str = np.append(sug_str, "Serum Sodium at low levels. Your doctor may consider medication.")
+	if arr[9] == 0:
+		sug_str = np.append(sug_str, "Women are more likely to suffer heart failure. Speak with your doctor about prevention.")
+	if arr[10] == 1:
+		sug_str = np.append(sug_str, "Cessation of smoking is strongly suggested.")
+	sug = sug_str.tolist()
+	return sug
+
+def info():
+	msg = [
+		"Age: Your risk of heart failure begins to increase with age around 65.",
+		"Anaemia: Anaemia causes your heart to work harder, so anemic persons are at higher risk of heart failure.",
+		"Creatinin Phosphokinase: High level of the enzyme CPK is linked to heart failure.",
+		"Diabetes: Diabetetes can easily lead to heart disease.",
+		"Ejection Fraction: The percentage of blood leaving the heart at each contraction. Less than 50% leads to high risk.",
+		"High Blood Pressure: High levels mean the heart is overworked.",
+		"Platelets: Platelet counts should be between 150,000 and 450,000 /mL to be considered low risk.",
+		"Serum Creatinine: High level means the kidneys aren't working well, leading to irregularities in blood flow and increasing the risk of heart failure.",
+		"Serum Sodium: Level below 135 mEq/L is a factor in heart failure.",
+		"Sex: Women are more likely to suffer heart failure than men."
+		"Smoking: Smoking is generally bad for your health and can easily lead to heart failure among other ailments."
+		]
+	return msg
 
 def prediction_test():
 	msg = """<html><head><b>Input: user input here</b></head><body><p>Default Prediction: DEATH! Change your ways NOW!!!</p></body></html>"""
@@ -47,34 +96,3 @@ def model_score():
 	#print(my_model.predict([0,0,0,0,0],[0,0,0,0,0,0]))
 	message = "\nprecision\trecall\tf1-score\tsupport\n\n0\t0.84\t0.82\t0.83\t38\n1\t0.84\t0.86\t0.85\t44\n\naccuracy\t\t\t0.84\t82\nmacro avg\t0.84\t0.84\t0.84\t82\nweighted avg\t0.84\t0.84\t0.84\t82\n"
 	return message
-
-def matrix():
-	pred = [0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0,
- 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,
- 0, 0, 1, 1, 0, 1, 0, 0]
-	test = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0,
- 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,
- 1, 0, 1, 1, 0, 1, 0, 0]
-	conf = confusion_matrix(test, pred)
-	message = conf[0] + conf[1]
-	print(list(conf))
-	msg = {conf}
-	return msg
-
-def roc():
-	#probs = pipe.predict_proba(x_test)
-	#preds = probs[:,1]
-	#fpr, tpr, threshold = metrics.roc_curve(y_test, dockerpred)
-	#roc_auc = metrics.auc(fpr, tpr)
-
-	#plt.title('Receiver Operating Characteristic')
-	#plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-	#plt.legend(loc = 'lower right')
-	#plt.plot([0, 1], [0, 1],'r--')
-	#plt.xlim([0, 1])
-	#plt.ylim([0, 1])
-	#plt.ylabel('True Positive Rate')
-	#plt.xlabel('False Positive Rate')
-	#plt.show()
-	#return
-	pass

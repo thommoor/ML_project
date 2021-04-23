@@ -15,6 +15,10 @@ docker-start:
 	@echo "starting the NEW service in container..."
 	docker run  -p 8080:8080 project
 
+docker-vol:
+	@echo "starting service in container, link to folder..."
+	docker run -p 8080:8080 -v C:\Users\thayd\OneDrive\Documents\ENGR-E222\github\ML_project:/ML_project -it projectml
+
 service:
 	@echo "creating the service..."
 	pip install --upgrade pip
